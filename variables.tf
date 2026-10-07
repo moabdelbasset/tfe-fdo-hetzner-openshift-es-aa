@@ -52,3 +52,38 @@ variable "db_storage_class" {
   type    = string
   default = "lvms-vg1"
 }
+
+variable "redis_name" {
+  type    = string
+  default = "tfe-redis"
+}
+
+variable "redis_chart_repo" {
+  type    = string
+  default = "https://charts.bitnami.com/bitnami"
+}
+
+variable "redis_chart_version" {
+  type    = string
+  default = "28.3.1"
+}
+
+variable "redis_password" {
+  type      = string
+  sensitive = true
+}
+
+variable "redis_storage_class" {
+  type    = string
+  default = "lvms-vg1"
+}
+
+variable "redis_storage_size" {
+  type    = string
+  default = "8Gi"
+}
+
+variable "redis_type" {
+  type    = string
+  default = "redis"
+}
