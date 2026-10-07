@@ -87,3 +87,58 @@ variable "redis_type" {
   type    = string
   default = "redis"
 }
+
+variable "minio_name" {
+  type    = string
+  default = "tfe-minio"
+}
+
+variable "minio_chart_repo" {
+  type    = string
+  default = "https://charts.bitnami.com/bitnami"
+}
+
+variable "minio_type" {
+  type    = string
+  default = "minio"
+}
+
+variable "minio_chart_version" {
+  type    = string
+  default = "17.0.21"
+}
+
+variable "minio_root_user" {
+  type    = string
+  default = "admin"
+}
+
+variable "minio_root_password" {
+  type      = string
+  sensitive = true
+}
+
+variable "minio_bucket" {
+  type    = string
+  default = "tfe"
+}
+
+variable "minio_storage_class" {
+  type    = string
+  default = "lvms-vg1"
+}
+
+variable "minio_storage_size" {
+  type    = string
+  default = "20Gi"
+}
+
+variable "minio_image_repo" {
+  type    = string
+  default = "bitnamilegacy/minio"
+}
+
+variable "minio_console_image_repo" {
+  type    = string
+  default = "bitnamilegacy/minio-object-browser"
+}
