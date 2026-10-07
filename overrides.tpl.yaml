@@ -1,0 +1,56 @@
+replicaCount: ${replica_count}
+image:
+  repository: ${jsonencode(registry_images_url)}
+  name: hashicorp/terraform-enterprise
+  tag: ${jsonencode(tfe_release)}
+
+imagePullSecrets:
+  - name: ${jsonencode(image_pull_secret)}
+
+resources:
+  requests:
+    memory: "4Gi"
+    cpu: "1000m"
+  limits:
+    memory: "6000Mi"
+    cpu: "4000m"
+
+service:
+  type: ClusterIP
+
+openshift:
+  enabled: true
+
+env:
+  variables:
+    TFE_CAPACITY_CONCURRENCY: 10
+   # TFE_CAPACITY_MEMORY: 2048
+    #TFE_CAPACITY_CPU: 2
+    TFE_HOSTNAME: ${jsonencode(fqdn)}
+    TFE_OPERATIONAL_MODE: active-active
+    TFE_DATABASE_HOST: ${jsonencode(pg_address)}
+    TFE_DATABASE_NAME: ${jsonencode(pg_dbname)}
+    TFE_DATABASE_USER: ${jsonencode(pg_user)}
+    TFE_DATABASE_PARAMETERS: sslmode=disable
+    TFE_OBJECT_STORAGE_TYPE: s3
+    TFE_OBJECT_STORAGE_S3_BUCKET: ${jsonencode(s3_bucket)}
+    TFE_OBJECT_STORAGE_S3_REGION: "us-east-1"
+    TFE_OBJECT_STORAGE_S3_ACCESS_KEY_ID: ${jsonencode(s3_bucket_key)}
+    TFE_OBJECT_STORAGE_S3_ENDPOINT: ${jsonencode(s3_endpoint)}
+    TFE_OBJECT_STORAGE_S3_USE_INSTANCE_PROFILE: false
+    TFE_ATLAS_REGISTRY_MONOREPO_TOGGLE_ENABLED: 1
+
+    TFE_REDIS_HOST: ${jsonencode("${redis_host}:${redis_port}")}
+    TFE_REDIS_USE_AUTH: true
+    TFE_REDIS_USE_TLS: false
+
+  secrets:
+    TFE_DATABASE_PASSWORD: ${jsonencode(pg_password)}
+    TFE_ENCRYPTION_PASSWORD: ${jsonencode(enc_password)}
+    TFE_LICENSE: ${jsonencode(tfe_license)}
+    TFE_OBJECT_STORAGE_S3_SECRET_ACCESS_KEY: ${jsonencode(s3_bucket_secret)}
+    TFE_REDIS_PASSWORD: ${jsonencode(redis_password)}
+
+tls:
+  certificateSecret: ${jsonencode(tls_secret_name)}
+  caCertData: ${jsonencode(ca_cert_data)}
